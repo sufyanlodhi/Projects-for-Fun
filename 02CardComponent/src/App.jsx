@@ -1,64 +1,66 @@
-import { useEffect } from "react";
-
+import React from "react";
+import { useEffect, useState } from "react";
+import Card from "./Component/Card";
 function App() {
+  const [data, setData] = useState([]); // Step 1: State banayi
 
   useEffect(() => {
-    //Define Dom Element variable
-    const renderData = document.querySelector(".renderData");
-
-    // Getting data from API
-    async function getData() {
-      const res = await fetch("https://fakestoreapi.com/products"); // aik data a raha hai api se 
-      const data = await res.json(); // jab data ajaye to usey Json main convert krega or Data Var main complete array save hoga
-
-      //map use: mujhe jo array api se mila hai us main objects hain or sb k upar aik aik kar k main ne taverse kia hai ta k all data ko access krsakun
-      data.map((obj) => {    
-        //creating element
-        let sep_div = document.createElement("div");
-        
-        let img_ele = document.createElement("img");
-        let title_Ele = document.createElement("p");
-        let price_Ele = document.createElement("p"); 
-        let btn_Ele = document.createElement("button"); 
-        let btntxt = document.createTextNode("Add to Cart");
-        btn_Ele.appendChild(btntxt);
-
-        // Access data from API
-        let objTitle = document.createTextNode(obj.title); // yahan per main ne api se title ko lekar aya or var k under store kia   
-        let objprice = document.createTextNode(`Price: $${obj.price}`); // yahan per main ne api se price ko lekar aya or var k under store kia
-        img_ele.setAttribute("src", obj.image); // img element jo create hua hai us main src k zariye main ne image ki location di hai.
-        img_ele.className = "images";
+    async function fetchData() {
+      const res = await fetch("https://fakestoreapi.com/products");
+      const result = await res.json();
+      console.log(result);
       
-        // Access kiye huye data ko appendchild kia elements main
-        title_Ele.appendChild(objTitle);
-        price_Ele.appendChild(objprice);
-        
-        //renderData div hai mera jo dom hai
-        sep_div.appendChild(img_ele); 
-        sep_div.appendChild(title_Ele);
-        sep_div.appendChild(price_Ele);
-        sep_div.appendChild(btn_Ele);
-
-        renderData.appendChild(sep_div);
-
-        // Function create kara hai jo images or price ko print kr raha hai button k zariye
-        btn_Ele.addEventListener("click", () => addtocart(obj.image, obj.price));
-        
-        function addtocart(img, price) {
-          console.log("My Image : " + img);
-          console.log("My Image : " + price);
-        }
-      });
+      setData(result); // Step 2: State update
     }
 
-    getData();
-  }, []); // <- sirf ek baar chalega jab component render ho
+    fetchData(); // Step 3: Function call
+  }, []);
 
   return (
-    <>
-      <div className="renderData"></div>
-    </>
+    <div className="Global-Screen justify-center flex gap-5 flex-wrap justify-items-center-safe">
+
+   
+      {/* Implicit Return: Direct return */}
+      {data.map((obj, i) => (// Step 4: JSX return
+      
+          
+          <Card img={obj.image} price={obj.price} des={obj.description}/>
+         
+      ))
+      }
+
+
+      {/* Explicit Return:
+      {data.map((obj, i) => {
+        return <li key={i}>{obj.title}</li>
+      })} */}
+
+    </div>
+
+
+
+    
+
+
   );
 }
 
 export default App;
+
+
+// category
+
+// description
+
+// id
+
+// image
+
+// price
+
+// rating
+
+// count
+
+
+// rate
