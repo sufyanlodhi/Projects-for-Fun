@@ -14,6 +14,7 @@ function App() {
 
 
 
+
   const addFruits = useCallback(() => {
     inputref.current.focus(); // 😎 yahan par main ne focus kia input ko 
     if (recval) {
@@ -27,9 +28,10 @@ function App() {
     } else {
       alert("Please Enter any Fruit name");
     }
-    // console.log("Inside function");
+    console.log("Inside function");
     // console.log(fruits); 
   }, [recval, fruits]);
+
 
 
 
@@ -44,6 +46,10 @@ function App() {
     setFruits(updatedfruits)
     console.log(updatedfruits);
   }
+
+
+
+
 
 
 
